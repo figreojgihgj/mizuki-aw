@@ -4,6 +4,11 @@ const robotsTxt = `
 User-agent: *
 Allow: /
 
+# 禁止爬取无关路径
+Disallow: /api/
+Disallow: /swup/
+Disallow: /pagefind/
+
 Sitemap: ${new URL("sitemap-index.xml", import.meta.env.SITE).href}
 `.trim();
 

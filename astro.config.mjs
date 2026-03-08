@@ -43,6 +43,7 @@ export default defineConfig({
 		}),
 		indexnow({
 			key: process.env.INDEXNOW_KEY,
+			enabled: !!process.env.INDEXNOW_KEY, // 只在配置了key时启用
 		}),
 		swup({
 			theme: false,

@@ -247,6 +247,15 @@ if (siteConfig.font) {
 		<meta name="twitter:description" content={description || pageTitle} />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
+		<link rel="canonical" href={Astro.url.href} />
+		<script type="application/ld+json" set:html={JSON.stringify({
+			"@context": "https://schema.org",
+			"@type": "Person",
+			"name": profileConfig.name,
+			"url": siteConfig.siteURL,
+			"description": profileConfig.bio,
+			"sameAs": profileConfig.links?.map(link => link.url)
+		})} />
 		{
 			favicons.map((favicon) => (
 				<link
