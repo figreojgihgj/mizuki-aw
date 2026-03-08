@@ -542,11 +542,11 @@ export const widgetConfigs = {
 
 export const umamiConfig = {
 	enabled: true, // 是否显示Umami统计
-	apiKey: import.meta.env.UMAMI_API_KEY || "", // API密钥 (Umami Cloud用)
-	username: import.meta.env.UMAMI_USERNAME || "", // 自托管用户名 (Umami v3用)
-	password: import.meta.env.UMAMI_PASSWORD || "", // 自托管密码 (Umami v3用)
-	baseUrl: "https://umami.arcwolf.top/api", // Umami API地址
+	apiKey: import.meta.env.UMAMI_API_KEY || "",
+	username: import.meta.env.UMAMI_USERNAME || "",
+	password: import.meta.env.UMAMI_PASSWORD || "",
+	baseUrl: import.meta.env.UMAMI_BASE_URL || "https://umami.arcwolf.top/api",
 	scripts: `
 <script defer src="https://umami.arcwolf.top/script.js" data-website-id="06a0da71-5d98-408d-a834-a72a977584b9"></script>
-  `.trim(), // 上面填你要插入的Script,不用再去Layout中插入
+  `.trim(),
 } as const;

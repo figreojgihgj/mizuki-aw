@@ -58,7 +58,7 @@
 		return await res.json();
 	}
 
-	async function fetchWebsiteStats(baseUrl, apiKey, username, password) {
+	async function fetchWebsiteStats(baseUrl, websiteId, username, password) {
 		const cached = localStorage.getItem(cacheKey);
 		if (cached) {
 			try {
@@ -72,9 +72,9 @@
 		}
 
 		const currentTimestamp = Date.now();
-		const statsUrl = `${baseUrl}/websites/${apiKey}/stats?startAt=0&endAt=${currentTimestamp}`;
+		const statsUrl = `${baseUrl}/websites/${websiteId}/stats?startAt=0&endAt=${currentTimestamp}`;
 
-		const stats = await makeRequest(statsUrl, baseUrl, username, password, apiKey);
+		const stats = await makeRequest(statsUrl, baseUrl, username, password);
 
 		localStorage.setItem(
 			cacheKey,
@@ -84,23 +84,23 @@
 		return stats;
 	}
 
-	async function fetchPageStats(baseUrl, apiKey, urlPath, username, password, startAt = 0, endAt = Date.now()) {
-		const statsUrl = `${baseUrl}/websites/${apiKey}/stats?startAt=${startAt}&endAt=${endAt}&path=${encodeURIComponent(urlPath)}`;
+	async function fetchPageStats(baseUrl, websiteId, urlPath, username, password, startAt = 0, endAt = Date.now()) {
+		const statsUrl = `${baseUrl}/websites/${websiteId}/stats?startAt=${startAt}&endAt=${endAt}&path=${encodeURIComponent(urlPath)}`;
 
-		return await makeRequest(statsUrl, baseUrl, username, password, apiKey);
+		return await makeRequest(statsUrl, baseUrl, username, password);
 	}
 
-	global.getUmamiWebsiteStats = async (baseUrl, apiKey, websiteId, username, password) => {
+	global.getUmamiWebsiteStats = async (baseUrl, websiteId, username, password) => {
 		try {
-			return await fetchWebsiteStats(baseUrl, apiKey, username, password);
+			return await fetchWebsiteStats(baseUrl, websiteId, username, password);
 		} catch (err) {
 			throw new Error(`获取Umami统计数据失败: ${err.message}`);
 		}
 	};
 
-	global.getUmamiPageStats = async (baseUrl, apiKey, websiteId, urlPath, username, password, startAt, endAt) => {
+	global.getUmamiPageStats = async (baseUrl, websiteId, urlPath, username, password, startAt, endAt) => {
 		try {
-			return await fetchPageStats(baseUrl, apiKey, urlPath, username, password, startAt, endAt);
+			return await fetchPageStats(baseUrl, websiteId, urlPath, username, password, startAt, endAt);
 		} catch (err) {
 			throw new Error(`获取Umami页面统计数据失败: ${err.message}`);
 		}
