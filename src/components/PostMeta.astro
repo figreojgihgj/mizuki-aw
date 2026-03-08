@@ -12,6 +12,8 @@ const umamiWebsiteId =
 	umamiConfig.scripts.match(/data-website-id="([^"]+)"/)?.[1] || "";
 const umamiApiKey = umamiConfig.apiKey || "";
 const umamiBaseUrl = umamiConfig.baseUrl || "";
+const umamiUsername = umamiConfig.username || "";
+const umamiPassword = umamiConfig.password || "";
 
 export interface Props {
 	published: Date;
@@ -126,7 +128,7 @@ const {
 
 <!-- 只有在非首页且启用umami且有slug时才加载脚本 -->
 {!isHome && umamiEnabled && id && (
-    <script is:inline define:vars={{ id, umamiBaseUrl, umamiApiKey, umamiWebsiteId, umamiConfig }}>
+    <script is:inline define:vars={{ id, umamiBaseUrl, umamiApiKey, umamiWebsiteId, umamiUsername, umamiPassword, umamiConfig }}>
         // 客户端统计文案生成函数
         function generateStatsText(pageViews, visitors) {
             return `浏览量 ${pageViews} · 访客 ${visitors}`;
@@ -142,7 +144,7 @@ const {
                 const pageUrl = `/posts/${id}/`;
                 
                 // 调用全局工具获取特定页面的 Umami 统计数据
-                const stats = await getUmamiPageStats(umamiBaseUrl, umamiApiKey, umamiWebsiteId, pageUrl);
+                const stats = await getUmamiPageStats(umamiBaseUrl, umamiWebsiteId, umamiWebsiteId, pageUrl, umamiUsername, umamiPassword);
                 
                 // 从返回的数据中提取页面浏览量和访客数
                 const pageViews = stats.pageviews || 0;

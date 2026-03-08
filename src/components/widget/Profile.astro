@@ -12,6 +12,8 @@ const umamiEnabled = umamiConfig.enabled || false;
 const umamiWebsiteId = umamiConfig.scripts.match(/data-website-id="([^"]+)"/)?.[1] || "";
 const umamiApiKey = umamiConfig.apiKey || "";
 const umamiBaseUrl = umamiConfig.baseUrl || "";
+const umamiUsername = umamiConfig.username || "";
+const umamiPassword = umamiConfig.password || "";
 ---
 
 <div class="card-base p-3">
@@ -72,7 +74,9 @@ const umamiBaseUrl = umamiConfig.baseUrl || "";
     <script is:inline type="module" define:vars={{ 
         umamiBaseUrl, 
         umamiApiKey, 
-        umamiWebsiteId, 
+        umamiWebsiteId,
+        umamiUsername,
+        umamiPassword,
         umamiConfig,
         profileStatsPageViews: i18n(I18nKey.profileStatsPageViews),
         profileStatsVisits: i18n(I18nKey.profileStatsVisits),
@@ -91,7 +95,7 @@ const umamiBaseUrl = umamiConfig.baseUrl || "";
             
             try {
                 // 调用全局工具获取 Umami 统计数据
-                const stats = await getUmamiWebsiteStats(umamiBaseUrl, umamiApiKey, umamiWebsiteId);
+                const stats = await getUmamiWebsiteStats(umamiBaseUrl, umamiWebsiteId, umamiWebsiteId, umamiUsername, umamiPassword);
                 
                 // 从返回的数据中提取页面浏览量和访客数
                 const pageViews = stats.pageviews || 0;
