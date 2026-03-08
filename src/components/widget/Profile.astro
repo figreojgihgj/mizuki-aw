@@ -95,7 +95,7 @@ const umamiPassword = umamiConfig.password || "";
             
             try {
                 // 调用全局工具获取 Umami 统计数据
-                const stats = await getUmamiWebsiteStats(umamiBaseUrl, umamiWebsiteId, umamiWebsiteId, umamiUsername, umamiPassword);
+                const stats = await getUmamiWebsiteStats(umamiBaseUrl, umamiWebsiteId, umamiUsername, umamiPassword);
                 
                 // 从返回的数据中提取页面浏览量和访客数
                 const pageViews = stats.pageviews || 0;

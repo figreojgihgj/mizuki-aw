@@ -144,7 +144,7 @@ const {
                 const pageUrl = `/posts/${id}/`;
                 
                 // 调用全局工具获取特定页面的 Umami 统计数据
-                const stats = await getUmamiPageStats(umamiBaseUrl, umamiWebsiteId, umamiWebsiteId, pageUrl, umamiUsername, umamiPassword);
+                const stats = await getUmamiPageStats(umamiBaseUrl, umamiWebsiteId, pageUrl, umamiUsername, umamiPassword);
                 
                 // 从返回的数据中提取页面浏览量和访客数
                 const pageViews = stats.pageviews || 0;
