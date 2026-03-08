@@ -541,7 +541,7 @@ export const widgetConfigs = {
 } as const;
 
 export const umamiConfig = {
-	enabled: true, // 是否显示Umami统计
+	enabled: false, // 是否显示Umami统计
 	apiKey: import.meta.env.UMAMI_API_KEY || "",
 	username: import.meta.env.UMAMI_USERNAME || "",
 	password: import.meta.env.UMAMI_PASSWORD || "",
