@@ -54,6 +54,47 @@ if (footerConfig.enable) {
 			<a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://astro.build">Astro</a> &
 			<a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://github.com/matsuzaka-yuki/mizuki">Mizuki</a>&nbsp; Version <a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://github.com/matsuzaka-yuki/mizuki">8.2</a>
     </div>
+    
+    <div class="mt-2">
+			<span id="client-ip">Loading...</span>
+			<script>
+				// 获取客户端IP和国家信息
+				console.log('Starting IP information fetch');
+				
+				// 直接执行，不等待DOMContentLoaded
+				const clientIpElement = document.getElementById('client-ip');
+				console.log('Client IP element:', clientIpElement);
+				
+				if (clientIpElement) {
+					fetch('https://ipinfo.io/json')
+					.then(response => {
+						console.log('Response status:', response.status);
+						if (!response.ok) {
+							throw new Error(`HTTP error! status: ${response.status}`);
+						}
+						return response.json();
+					})
+					.then(data => {
+						console.log('Response data:', data);
+						const ip = data.ip || 'Unknown';
+						const country = data.country || 'Unknown';
+						const region = data.region || '';
+						console.log('Extracted IP:', ip, 'Country:', country);
+						const text = `Your IP: ${ip} | Location: ${country} ${region}`;
+						console.log('Updating element with text:', text);
+						// 尝试使用innerHTML
+						clientIpElement.innerHTML = text;
+						console.log('Element updated successfully, new content:', clientIpElement.innerHTML);
+					})
+					.catch(error => {
+						console.error('Error fetching IP information:', error);
+						clientIpElement.innerHTML = 'Failed to get IP information';
+					});
+				} else {
+					console.error('Client IP element not found');
+				}
+			</script>
+    </div>
 		
 	</div>
 </div>
