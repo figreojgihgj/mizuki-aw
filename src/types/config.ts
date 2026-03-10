@@ -466,3 +466,12 @@ export type PioConfig = {
 export type ShareConfig = {
 	enable: boolean; // 是否启用分享功能
 };
+
+/**
+ * 线路检测组件配置
+ */
+export type LineDetectorConfig = {
+	enable: boolean; // 是否启用线路检测
+	domesticUrl: string; // 国内线路URL
+	internationalUrl: string; // 国外线路URL
+};

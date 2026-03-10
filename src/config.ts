@@ -5,6 +5,7 @@ import type {
 	FooterConfig,
 	FullscreenWallpaperConfig,
 	LicenseConfig,
+	LineDetectorConfig,
 	MusicPlayerConfig,
 	NavBarConfig,
 	PermalinkConfig,
@@ -528,6 +529,13 @@ export const pioConfig: import("./types/config").PioConfig = {
 	},
 };
 
+// 线路检测配置
+export const lineDetectorConfig: LineDetectorConfig = {
+	enable: true, // 启用线路检测
+	domesticUrl: "https://www.arcwolf.top", // 国内线路URL
+	internationalUrl: "https://blog.719831.xyz", // 国外线路URL
+};
+
 // 导出所有配置的统一接口
 export const widgetConfigs = {
 	profile: profileConfig,
@@ -538,6 +546,7 @@ export const widgetConfigs = {
 	fullscreenWallpaper: fullscreenWallpaperConfig,
 	pio: pioConfig, // 添加 pio 配置
 	share: shareConfig, // 添加分享配置
+	lineDetector: lineDetectorConfig, // 添加线路检测配置
 } as const;
 
 export const umamiConfig = {

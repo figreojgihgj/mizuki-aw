@@ -175,18 +175,6 @@ if (siteConfig.font) {
 	data-overlayscrollbars-initialize
 >
 	<head>
-		<!-- 域名检测提示 -->
-		<script is:inline>
-			(function() {
-				const hostname = window.location.hostname;
-				// 检查是否为 *.arcwolf.top 域名
-				const isArcwolfDomain = hostname === 'arcwolf.top' || hostname.endsWith('.arcwolf.top');
-				if (!isArcwolfDomain) {
-					alert('您正在访问测试站，可能会有不稳定的现象');
-				}
-			})();
-		</script>
-
 		<!-- 第三方分析脚本 - 延迟加载优化 -->
 		<script is:inline>
 			// 使用 requestIdleCallback 延迟加载第三方脚本

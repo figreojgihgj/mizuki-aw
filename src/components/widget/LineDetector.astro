@@ -1,0 +1,105 @@
+---
+import { Icon } from "astro-icon/components";
+import { lineDetectorConfig } from "../../config";
+---
+
+<div class="pb-4">
+	<div class="font-bold transition text-lg text-neutral-900 dark:text-neutral-100 relative ml-8 mt-4 mb-2 flex items-center before:w-1 before:h-4 before:rounded-md before:bg-[var(--primary)] before:absolute before:left-[-16px] before:top-[5.5px]">
+		线路状态
+	</div>
+	<div class="px-4">
+		<div class="flex flex-col gap-2 bg-white dark:bg-neutral-800 rounded-xl p-4 shadow-sm">
+			<div class="flex items-center justify-between">
+				<div class="flex items-center gap-2.5 flex-1 min-w-0">
+					<div class="text-[var(--primary)] text-xl shrink-0">
+						<Icon name="material-symbols:cloud-outline" />
+					</div>
+					<span class="text-neutral-700 dark:text-neutral-300 font-medium text-sm">
+						当前线路
+					</span>
+				</div>
+				<div class="flex items-center ml-3 shrink-0">
+					<span
+						id="current-line"
+						class="text-base font-bold text-neutral-900 dark:text-neutral-100"
+					>
+						检测中...
+					</span>
+				</div>
+			</div>
+
+			<div class="flex gap-2 mt-2">
+				<button
+					id="btn-domestic"
+					class="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-[var(--card-bg)] border border-[var(--line-divider)] hover:bg-[var(--btn-regular-bg-hover)] transition-colors text-sm font-medium text-neutral-700 dark:text-neutral-300 disabled:opacity-50 disabled:cursor-not-allowed"
+					disabled
+				>
+					<Icon name="material-symbols:home-outline" class="text-lg" />
+					<span>国内</span>
+				</button>
+				<button
+					id="btn-international"
+					class="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-[var(--card-bg)] border border-[var(--line-divider)] hover:bg-[var(--btn-regular-bg-hover)] transition-colors text-sm font-medium text-neutral-700 dark:text-neutral-300 disabled:opacity-50 disabled:cursor-not-allowed"
+					disabled
+				>
+					<Icon name="material-symbols:language" class="text-lg" />
+					<span>国外</span>
+				</button>
+				<button
+					id="btn-local"
+					class="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-[var(--card-bg)] border border-[var(--line-divider)] hover:bg-[var(--btn-regular-bg-hover)] transition-colors text-sm font-medium text-neutral-700 dark:text-neutral-300 disabled:opacity-50 disabled:cursor-not-allowed"
+					disabled
+				>
+					<Icon name="material-symbols:computer-outline" class="text-lg" />
+					<span>本地</span>
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script is:inline define:vars={{ domesticUrl: lineDetectorConfig.domesticUrl, internationalUrl: lineDetectorConfig.internationalUrl }}>
+	(function() {
+		const hostname = window.location.hostname;
+		const currentLineEl = document.getElementById('current-line');
+		const btnDomestic = document.getElementById('btn-domestic');
+		const btnInternational = document.getElementById('btn-international');
+		const btnLocal = document.getElementById('btn-local');
+
+		let currentLine = 'unknown';
+
+		if (hostname === 'localhost' || hostname === '127.0.0.1') {
+			currentLine = 'local';
+			if (currentLineEl) currentLineEl.textContent = '本地回环';
+		} else if (hostname === 'arcwolf.top' || hostname.endsWith('.arcwolf.top')) {
+			currentLine = 'domestic';
+			if (currentLineEl) currentLineEl.textContent = '国内线路';
+		} else if (hostname === '719831.xyz' || hostname.endsWith('.719831.xyz')) {
+			currentLine = 'international';
+			if (currentLineEl) currentLineEl.textContent = '国外线路';
+		} else {
+			if (currentLineEl) currentLineEl.textContent = '未知线路';
+		}
+
+		if (btnDomestic) {
+			btnDomestic.disabled = currentLine === 'domestic';
+			btnDomestic.addEventListener('click', function() {
+				window.location.href = domesticUrl + window.location.pathname + window.location.search;
+			});
+		}
+
+		if (btnInternational) {
+			btnInternational.disabled = currentLine === 'international';
+			btnInternational.addEventListener('click', function() {
+				window.location.href = internationalUrl + window.location.pathname + window.location.search;
+			});
+		}
+
+		if (btnLocal) {
+			btnLocal.disabled = currentLine === 'local';
+			btnLocal.addEventListener('click', function() {
+				window.location.href = 'http://localhost:4321' + window.location.pathname + window.location.search;
+			});
+		}
+	})();
+</script>

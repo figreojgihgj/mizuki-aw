@@ -5,6 +5,7 @@ import Footer from "@components/Footer.astro";
 import RightSideBar from "@components/layout/RightSideBar.astro";
 import Navbar from "@components/Navbar.astro";
 import SideBar from "@components/widget/SideBar.astro";
+import LineDetector from "../components/widget/LineDetector.astro";
 import type { MarkdownHeading } from "astro";
 import { Icon } from "astro-icon/components";
 import FullscreenWallpaper from "../components/misc/FullscreenWallpaper.astro";
@@ -14,6 +15,7 @@ import TypewriterText from "../components/TypewriterText.astro";
 import TOC from "../components/widget/TOC.astro";
 import {
 	fullscreenWallpaperConfig,
+	lineDetectorConfig,
 	siteConfig,
 } from "../config";
 import {
@@ -137,7 +139,8 @@ const hasLeftSidebarComponents =
 // 检查右侧边栏是否有组件
 const hasRightSidebarComponents =
 	widgetManager.getComponentsByPosition("top", "right", "desktop").length > 0 ||
-	widgetManager.getComponentsByPosition("sticky", "right", "desktop").length > 0;
+	widgetManager.getComponentsByPosition("sticky", "right", "desktop").length > 0 ||
+	lineDetectorConfig.enable;
 
 // 检查手机端 drawer 是否有组件
 const hasMobileDrawerComponents =
@@ -166,8 +169,9 @@ const tabletShowRightSidebar = false; // 平板端不再有独立的右侧栏，
 const tabletAnySidebar = tabletShowLeftSidebar;
 
 // 检查默认布局模式，如果是 grid 模式，右侧边栏初始就应该隐藏
+// 但如果启用了线路检测组件，则不隐藏
 const defaultPostListLayout = siteConfig.postListLayout?.defaultMode || "list";
-const initialRightSidebarHidden = defaultPostListLayout === "grid";
+const initialRightSidebarHidden = defaultPostListLayout === "grid" && !lineDetectorConfig.enable;
 
 // 动态网格布局类名 - 根据侧边栏模式和是否有组件调整列宽
 let desktopGridCols = "lg:grid-cols-1";
@@ -818,6 +822,11 @@ const transparentClass = shouldEnableTransparency
                 
                 {hasRightSidebarComponents && (
                     <div class={`right-sidebar-container ${rightSidebarClass} ${transparentClass}`}>
+                        {lineDetectorConfig.enable && (
+                            <div class="sidebar-component onload-animation mb-4">
+                                <LineDetector />
+                            </div>
+                        )}
                         <RightSideBar headings={headings}></RightSideBar>
                     </div>
                 )}

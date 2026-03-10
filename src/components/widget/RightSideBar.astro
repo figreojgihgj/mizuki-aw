@@ -2,6 +2,8 @@
 import { widgetManager } from "../../utils/widget-manager";
 import Calendar from "./Calendar.astro";
 import SiteStats from "./SiteStats.astro";
+import LineDetector from "./LineDetector.astro";
+import { lineDetectorConfig } from "../../config";
 
 // 分离顶部固定和粘性定位的组件
 const topComponents = widgetManager.getComponentsByPosition("top", "right");
@@ -18,6 +20,13 @@ const stickyComponents = widgetManager.getComponentsByPosition("sticky", "right"
         {component.type === "calendar" && <Calendar />}
       </div>
     ))}
+    
+    <!-- 线路检测组件 -->
+    {lineDetectorConfig.enable && (
+      <div class="sidebar-component onload-animation">
+        <LineDetector />
+      </div>
+    )}
   </div>
   
   <!-- 粘性定位区域 -->
