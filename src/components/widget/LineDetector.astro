@@ -31,27 +31,30 @@ import { lineDetectorConfig } from "../../config";
 			<div class="flex gap-2 mt-2">
 				<button
 					id="btn-domestic"
-					class="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-[var(--card-bg)] border border-[var(--line-divider)] hover:bg-[var(--btn-regular-bg-hover)] transition-colors text-sm font-medium text-neutral-700 dark:text-neutral-300 disabled:opacity-50 disabled:cursor-not-allowed"
+					class="flex-1 flex flex-col items-center justify-center gap-1 px-3 py-2 rounded-lg bg-[var(--card-bg)] border border-[var(--line-divider)] hover:bg-[var(--btn-regular-bg-hover)] transition-colors text-sm font-medium text-neutral-700 dark:text-neutral-300 disabled:opacity-50 disabled:cursor-not-allowed"
 					disabled
 				>
 					<Icon name="material-symbols:home-outline" class="text-lg" />
 					<span>国内</span>
+					<span id="delay-domestic" class="text-xs font-normal">检测中...</span>
 				</button>
 				<button
 					id="btn-international"
-					class="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-[var(--card-bg)] border border-[var(--line-divider)] hover:bg-[var(--btn-regular-bg-hover)] transition-colors text-sm font-medium text-neutral-700 dark:text-neutral-300 disabled:opacity-50 disabled:cursor-not-allowed"
+					class="flex-1 flex flex-col items-center justify-center gap-1 px-3 py-2 rounded-lg bg-[var(--card-bg)] border border-[var(--line-divider)] hover:bg-[var(--btn-regular-bg-hover)] transition-colors text-sm font-medium text-neutral-700 dark:text-neutral-300 disabled:opacity-50 disabled:cursor-not-allowed"
 					disabled
 				>
 					<Icon name="material-symbols:language" class="text-lg" />
 					<span>国外</span>
+					<span id="delay-international" class="text-xs font-normal">检测中...</span>
 				</button>
 				<button
 					id="btn-local"
-					class="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-[var(--card-bg)] border border-[var(--line-divider)] hover:bg-[var(--btn-regular-bg-hover)] transition-colors text-sm font-medium text-neutral-700 dark:text-neutral-300 disabled:opacity-50 disabled:cursor-not-allowed"
+					class="flex-1 flex flex-col items-center justify-center gap-1 px-3 py-2 rounded-lg bg-[var(--card-bg)] border border-[var(--line-divider)] hover:bg-[var(--btn-regular-bg-hover)] transition-colors text-sm font-medium text-neutral-700 dark:text-neutral-300 disabled:opacity-50 disabled:cursor-not-allowed"
 					disabled
 				>
 					<Icon name="material-symbols:computer-outline" class="text-lg" />
 					<span>本地</span>
+					<span id="delay-local" class="text-xs font-normal">检测中...</span>
 				</button>
 			</div>
 		</div>
@@ -65,6 +68,9 @@ import { lineDetectorConfig } from "../../config";
 		const btnDomestic = document.getElementById('btn-domestic');
 		const btnInternational = document.getElementById('btn-international');
 		const btnLocal = document.getElementById('btn-local');
+		const delayDomestic = document.getElementById('delay-domestic');
+		const delayInternational = document.getElementById('delay-international');
+		const delayLocal = document.getElementById('delay-local');
 
 		let currentLine = 'unknown';
 
@@ -101,5 +107,117 @@ import { lineDetectorConfig } from "../../config";
 				window.location.href = 'http://localhost:4321' + window.location.pathname + window.location.search;
 			});
 		}
+
+		// 延迟检测函数（优化版，更准确）
+		async function measureDelay(url) {
+			try {
+				// 提取域名
+				const urlObj = new URL(url);
+				const domain = urlObj.hostname;
+				
+				// 使用性能计时 API 进行更准确的测量
+				const controller = new AbortController();
+				const timeoutId = setTimeout(() => controller.abort(), 3000);
+				
+				const startTime = performance.now();
+				
+				try {
+					// 使用 HEAD 请求获取根路径，减少数据传输
+					await fetch(url, {
+						method: 'HEAD',
+						mode: 'no-cors',
+						cache: 'no-cache',
+						signal: controller.signal,
+						headers: {
+							'Cache-Control': 'no-cache',
+							'Pragma': 'no-cache'
+						}
+					});
+				} finally {
+					clearTimeout(timeoutId);
+				}
+				
+				const endTime = performance.now();
+				const delay = Math.round(endTime - startTime);
+				
+				// 过滤异常值
+				if (delay > 1000) {
+					return Math.min(delay, 999); // 限制最大显示值
+				}
+				
+				return delay;
+			} catch (error) {
+				return -1; // 表示不可达
+			}
+		}
+
+		// 本地延迟检测（优化版）
+		async function measureLocalDelay() {
+			try {
+				// 本地回环地址
+				const localUrl = window.location.origin;
+				
+				const controller = new AbortController();
+				const timeoutId = setTimeout(() => controller.abort(), 1000);
+				
+				const startTime = performance.now();
+				
+				try {
+					await fetch(localUrl, {
+						method: 'HEAD',
+						mode: 'no-cors',
+						cache: 'no-cache',
+						signal: controller.signal
+					});
+				} finally {
+					clearTimeout(timeoutId);
+				}
+				
+				const endTime = performance.now();
+				return Math.round(endTime - startTime);
+			} catch (error) {
+				return -1;
+			}
+		}
+
+		// 更新延迟显示
+		function updateDelayDisplay(element, delay) {
+			if (!element) return;
+
+			if (delay === -1) {
+				element.textContent = '不可达';
+				element.style.color = '#ef4444'; // 红色
+			} else if (delay < 100) {
+				element.textContent = `${delay}ms`;
+				element.style.color = '#22c55e'; // 绿色
+			} else if (delay < 300) {
+				element.textContent = `${delay}ms`;
+				element.style.color = '#eab308'; // 黄色
+			} else {
+				element.textContent = `${delay}ms`;
+				element.style.color = '#ef4444'; // 红色
+			}
+		}
+
+		// 检测所有线路延迟
+		async function checkAllDelays() {
+			// 检测国内线路
+			const domesticDelay = await measureDelay(domesticUrl);
+			updateDelayDisplay(delayDomestic, domesticDelay);
+
+			// 检测国外线路
+			const internationalDelay = await measureDelay(internationalUrl);
+			updateDelayDisplay(delayInternational, internationalDelay);
+
+			// 检测本地线路
+			const localDelay = await measureLocalDelay();
+			updateDelayDisplay(delayLocal, localDelay);
+		}
+
+		// 初始检测
+		checkAllDelays();
+
+		// 每10秒检测一次
+		setInterval(checkAllDelays, 10000);
 	})();
 </script>
