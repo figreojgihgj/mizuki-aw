@@ -556,6 +556,6 @@ export const umamiConfig = {
 	password: import.meta.env.UMAMI_PASSWORD || "",
 	baseUrl: import.meta.env.UMAMI_BASE_URL || "https://umami.arcwolf.top/api",
 	scripts: `
-<script defer src="https://umami.arcwolf.top/script.js" data-website-id="06a0da71-5d98-408d-a834-a72a977584b9"></script>
+<script defer src="https://umami.arcwolf.top/script.js" data-website-id="c53bf74e-50a3-41ec-ba5c-ecc751ec3816"></script>
   `.trim(),
 } as const;
