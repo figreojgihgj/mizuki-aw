@@ -246,7 +246,7 @@ export const navBarConfig: NavBarConfig = {
 		},
 		{
 			name: "统计",
-			url: "https://umami.arcwolf.top/share/Z7xSKUUD66e9B6Od",
+			url: "https://umami.arcwolf.top/share/6ZLUz3bUyr2crSYG",
 			icon: "material-symbols:analytics",
 			external: true,
 		},
