@@ -31,7 +31,7 @@
 
 		localStorage.setItem(
 			tokenCacheKey,
-			JSON.stringify({ timestamp: Date.now(), token })
+			JSON.stringify({ timestamp: Date.now(), token }),
 		);
 
 		return token;
@@ -39,7 +39,7 @@
 
 	async function makeRequest(url, baseUrl, username, password, apiKey) {
 		let headers = {
-			"Accept": "application/json",
+			Accept: "application/json",
 		};
 
 		if (apiKey) {
@@ -58,7 +58,7 @@
 		return await res.json();
 	}
 
-	async function fetchWebsiteStats(baseUrl, websiteId, username, password) {
+	async function fetchWebsiteStats(baseUrl, websiteId, username, password, apiKey) {
 		const cached = localStorage.getItem(cacheKey);
 		if (cached) {
 			try {
@@ -74,33 +74,72 @@
 		const currentTimestamp = Date.now();
 		const statsUrl = `${baseUrl}/websites/${websiteId}/stats?startAt=0&endAt=${currentTimestamp}`;
 
-		const stats = await makeRequest(statsUrl, baseUrl, username, password);
+		const stats = await makeRequest(statsUrl, baseUrl, username, password, apiKey);
 
 		localStorage.setItem(
 			cacheKey,
-			JSON.stringify({ timestamp: Date.now(), value: stats })
+			JSON.stringify({ timestamp: Date.now(), value: stats }),
 		);
 
 		return stats;
 	}
 
-	async function fetchPageStats(baseUrl, websiteId, urlPath, username, password, startAt = 0, endAt = Date.now()) {
+	async function fetchPageStats(
+		baseUrl,
+		websiteId,
+		urlPath,
+		username,
+		password,
+		apiKey,
+		startAt = 0,
+		endAt = Date.now(),
+	) {
 		const statsUrl = `${baseUrl}/websites/${websiteId}/stats?startAt=${startAt}&endAt=${endAt}&path=${encodeURIComponent(urlPath)}`;
 
-		return await makeRequest(statsUrl, baseUrl, username, password);
+		return await makeRequest(statsUrl, baseUrl, username, password, apiKey);
 	}
 
-	global.getUmamiWebsiteStats = async (baseUrl, websiteId, username, password) => {
+	global.getUmamiWebsiteStats = async (
+		baseUrl,
+		websiteId,
+		username,
+		password,
+		apiKey,
+	) => {
 		try {
-			return await fetchWebsiteStats(baseUrl, websiteId, username, password);
+			return await fetchWebsiteStats(
+				baseUrl,
+				websiteId,
+				username,
+				password,
+				apiKey,
+			);
 		} catch (err) {
 			throw new Error(`获取Umami统计数据失败: ${err.message}`);
 		}
 	};
 
-	global.getUmamiPageStats = async (baseUrl, websiteId, urlPath, username, password, startAt, endAt) => {
+	global.getUmamiPageStats = async (
+		baseUrl,
+		websiteId,
+		urlPath,
+		username,
+		password,
+		apiKey,
+		startAt,
+		endAt,
+	) => {
 		try {
-			return await fetchPageStats(baseUrl, websiteId, urlPath, username, password, startAt, endAt);
+			return await fetchPageStats(
+				baseUrl,
+				websiteId,
+				urlPath,
+				username,
+				password,
+				apiKey,
+				startAt,
+				endAt,
+			);
 		} catch (err) {
 			throw new Error(`获取Umami页面统计数据失败: ${err.message}`);
 		}
@@ -111,3 +150,4 @@
 		localStorage.removeItem(tokenCacheKey);
 	};
 })(window);
+

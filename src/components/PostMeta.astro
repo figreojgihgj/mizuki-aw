@@ -135,16 +135,16 @@ const {
         }
         
         // 获取访问量统计
-        async function fetchPageViews(isRetry = false) {
+        async function fetchPageViews() {
             // @ts-ignore
-            if (!umamiConfig.enabled || !umamiWebsiteId || !id || !isRetry) return;
+            if (!umamiConfig.enabled || !umamiWebsiteId || !id) return;
             
             try {
                 // 构造文章页面的URL路径
                 const pageUrl = `/posts/${id}/`;
                 
                 // 调用全局工具获取特定页面的 Umami 统计数据
-                const stats = await getUmamiPageStats(umamiBaseUrl, umamiWebsiteId, pageUrl, umamiUsername, umamiPassword);
+                const stats = await getUmamiPageStats(umamiBaseUrl, umamiWebsiteId, pageUrl, umamiUsername, umamiPassword, umamiApiKey);
                 
                 // 从返回的数据中提取页面浏览量和访客数
                 const pageViews = stats.pageviews || 0;
