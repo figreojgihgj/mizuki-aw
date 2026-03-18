@@ -137,6 +137,7 @@
 		username,
 		password,
 		apiKey,
+		useCache = true,
 	) => {
 		try {
 			console.log("Umami配置调试信息:", {
@@ -145,6 +146,7 @@
 				username,
 				hasApiKey: !!apiKey,
 				hasPassword: !!password,
+				useCache,
 			});
 
 			// 验证websiteId是否有效
@@ -160,6 +162,7 @@
 				username,
 				password,
 				apiKey,
+				useCache,
 			);
 		} catch (err) {
 			throw new Error(`获取Umami统计数据失败: ${err.message}`);
