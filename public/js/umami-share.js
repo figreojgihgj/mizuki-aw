@@ -77,16 +77,20 @@
 		username,
 		password,
 		apiKey,
+		useCache = true,
 	) {
-		const cached = localStorage.getItem(cacheKey);
-		if (cached) {
-			try {
-				const parsed = JSON.parse(cached);
-				if (Date.now() - parsed.timestamp < cacheTTL) {
-					return parsed.value;
+		// 可选缓存，默认启用（用于站点统计）
+		if (useCache) {
+			const cached = localStorage.getItem(cacheKey);
+			if (cached) {
+				try {
+					const parsed = JSON.parse(cached);
+					if (Date.now() - parsed.timestamp < cacheTTL) {
+						return parsed.value;
+					}
+				} catch {
+					localStorage.removeItem(cacheKey);
 				}
-			} catch {
-				localStorage.removeItem(cacheKey);
 			}
 		}
 
@@ -101,10 +105,13 @@
 			apiKey,
 		);
 
-		localStorage.setItem(
-			cacheKey,
-			JSON.stringify({ timestamp: Date.now(), value: stats }),
-		);
+		// 只有启用缓存时才保存
+		if (useCache) {
+			localStorage.setItem(
+				cacheKey,
+				JSON.stringify({ timestamp: Date.now(), value: stats }),
+			);
+		}
 
 		return stats;
 	}
