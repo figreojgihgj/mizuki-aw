@@ -2,6 +2,19 @@
 	const cacheKey = "umami-share-cache";
 	const cacheTTL = 3600_000; // 1h
 	const tokenCacheKey = "umami-share-token";
+	const configCacheKey = "umami-config-cache";
+
+	// 清除所有缓存
+	global.clearUmamiShareCache = () => {
+		try {
+			localStorage.removeItem(cacheKey);
+			localStorage.removeItem(tokenCacheKey);
+			localStorage.removeItem(configCacheKey);
+			console.log("Umami缓存已清除");
+		} catch (error) {
+			console.log("清除缓存失败:", error);
+		}
+	};
 
 	async function getToken(baseUrl, username, password) {
 		const cached = localStorage.getItem(tokenCacheKey);
@@ -58,7 +71,13 @@
 		return await res.json();
 	}
 
-	async function fetchWebsiteStats(baseUrl, websiteId, username, password, apiKey) {
+	async function fetchWebsiteStats(
+		baseUrl,
+		websiteId,
+		username,
+		password,
+		apiKey,
+	) {
 		const cached = localStorage.getItem(cacheKey);
 		if (cached) {
 			try {
@@ -74,7 +93,13 @@
 		const currentTimestamp = Date.now();
 		const statsUrl = `${baseUrl}/websites/${websiteId}/stats?startAt=0&endAt=${currentTimestamp}`;
 
-		const stats = await makeRequest(statsUrl, baseUrl, username, password, apiKey);
+		const stats = await makeRequest(
+			statsUrl,
+			baseUrl,
+			username,
+			password,
+			apiKey,
+		);
 
 		localStorage.setItem(
 			cacheKey,
@@ -107,6 +132,21 @@
 		apiKey,
 	) => {
 		try {
+			console.log("Umami配置调试信息:", {
+				baseUrl,
+				websiteId,
+				username,
+				hasApiKey: !!apiKey,
+				hasPassword: !!password,
+			});
+
+			// 验证websiteId是否有效
+			if (!websiteId || websiteId === "admin" || websiteId === "") {
+				throw new Error(
+					"无效的websiteId配置，请检查环境变量UMAMI_API_KEY或umamiConfig.scripts",
+				);
+			}
+
 			return await fetchWebsiteStats(
 				baseUrl,
 				websiteId,
@@ -143,11 +183,6 @@
 		} catch (err) {
 			throw new Error(`获取Umami页面统计数据失败: ${err.message}`);
 		}
-	};
-
-	global.clearUmamiShareCache = () => {
-		localStorage.removeItem(cacheKey);
-		localStorage.removeItem(tokenCacheKey);
 	};
 })(window);
 
