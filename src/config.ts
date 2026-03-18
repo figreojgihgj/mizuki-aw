@@ -550,10 +550,10 @@ export const widgetConfigs = {
 } as const;
 
 export const umamiConfig = {
-	enabled: false, // 是否显示Umami统计
+	enabled: true, // 是否显示Umami统计
 	apiKey: import.meta.env.UMAMI_API_KEY || "",
-	username: import.meta.env.UMAMI_USERNAME || "",
-	password: import.meta.env.UMAMI_PASSWORD || "",
+	username: import.meta.env.UMAMI_USERNAME || "admin",
+	password: import.meta.env.UMAMI_PASSWORD || "umami",
 	baseUrl: import.meta.env.UMAMI_BASE_URL || "https://umami.arcwolf.top/api",
 	scripts: `
 <script defer src="https://umami.arcwolf.top/script.js" data-website-id="c53bf74e-50a3-41ec-ba5c-ecc751ec3816"></script>
