@@ -133,7 +133,7 @@ export const siteConfig: SiteConfig = {
 
 		// PicFlow API支持(智能图片API)
 		imageApi: {
-			enable: false, // 启用图片API
+			enable: true, // 启用图片API
 			url: "https://picflow.arcwolf.top/api_v2.php?format=text&count=5", // API地址，返回每行一个图片链接的文本
 		},
 		// 这里需要使用PicFlow API的Text返回类型,所以我们需要format=text参数

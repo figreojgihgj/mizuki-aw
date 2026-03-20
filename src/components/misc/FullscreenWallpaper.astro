@@ -101,10 +101,13 @@ const positionClass = (() => {
 				try {
 					// 添加随机参数，确保每次获取不同的图片
 					const randomParam = `&_t=${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-					const apiUrl = apiConfig.url + (apiConfig.url.includes('?') ? '' : '?') + randomParam;
+					const apiUrl = apiConfig.url + (apiConfig.url.includes('?') ? '&' : '?') + randomParam;
 					const response = await fetch(apiUrl);
 					const text = await response.text();
-					const apiImages = text.split("\n").filter(line => line.trim());
+					const apiImages = text.split("\n")
+						.map(line => line.trim())
+						.filter(line => line.length > 0)
+						.map(url => url.replace(/\/+/g, '/').replace(':/', '://')); // 修复双斜杠问题
 					if (apiImages.length > 0) {
 						// 从返回的图片中随机选择一张
 						const randomIndex = Math.floor(Math.random() * apiImages.length);
