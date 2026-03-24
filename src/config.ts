@@ -278,6 +278,12 @@ export const navBarConfig: NavBarConfig = {
 					external: true,
 					icon: "material-symbols:quiz",
 				},
+				{
+					name: "状态页面",
+					url: "https://status.arcwolf.top",
+					external: true,
+					icon: "material-symbols:app_badging",
+				},
 			],
 		},
 	],
