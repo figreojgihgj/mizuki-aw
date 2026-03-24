@@ -155,9 +155,9 @@ export const siteConfig: SiteConfig = {
 		},
 
 		credit: {
-			enable: false, // 显示横幅图片来源文本
+			enable: true, // 显示横幅图片来源文本
 
-			text: "Describe", // 要显示的来源文本
+			text: "RandoM Picture", // 要显示的来源文本
 			url: "", // （可选）原始艺术品或艺术家页面的 URL 链接
 		},
 
@@ -254,6 +254,31 @@ export const navBarConfig: NavBarConfig = {
 			name: "封面",
 			url: "/cover/",
 			icon: "material-symbols:image-rounded",
+		},
+		{
+			name: "工具",
+			url: "/tools/",
+			icon: "material-symbols:settings",
+			children: [
+				{
+					name: "随机图片",
+					url: "https://random.arcwolf.top/pic",
+					external: true,
+					icon: "material-symbols:10k",
+				},
+				{
+					name: "转换器",
+					url: "https://convert.arcwolf.top",
+					external: true,
+					icon: "material-symbols:transform",
+				},
+				{
+					name: "考试看板",
+					url: "https://exam.arcwolf.top",
+					external: true,
+					icon: "material-symbols:quiz",
+				},
+			],
 		},
 	],
 };
