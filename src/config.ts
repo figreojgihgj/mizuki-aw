@@ -282,7 +282,7 @@ export const navBarConfig: NavBarConfig = {
 					name: "状态页面",
 					url: "https://status.arcwolf.top",
 					external: true,
-					icon: "material-symbols:app_badging",
+					icon: "material-symbols:app-badging-outline",
 				},
 			],
 		},
