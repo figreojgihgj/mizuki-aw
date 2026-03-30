@@ -25,7 +25,7 @@ const SITE_TIMEZONE = 8; //设置你的网站时区 from -12 to 12 default in UT
 export const siteConfig: SiteConfig = {
 	title: "Arcwolf Blog",
 	subtitle: "个人生活历程分享",
-	siteURL: "https://arcwolf.top/", // 请替换为你的站点URL，以斜杠结尾
+	siteURL: "https://www.arcwolf.top/", // 请替换为你的站点URL，以斜杠结尾
 	siteStartDate: "2026-01-20", // 站点开始运行日期，用于站点统计组件计算运行天数
 
 	timeZone: SITE_TIMEZONE,
@@ -155,7 +155,7 @@ export const siteConfig: SiteConfig = {
 		},
 
 		credit: {
-			enable: true, // 显示横幅图片来源文本
+			enable: false, // 显示横幅图片来源文本
 
 			text: "RandoM Picture", // 要显示的来源文本
 			url: "", // （可选）原始艺术品或艺术家页面的 URL 链接
@@ -245,17 +245,6 @@ export const navBarConfig: NavBarConfig = {
 			icon: "material-symbols:info",
 		},
 		{
-			name: "统计",
-			url: "https://umami.arcwolf.top/share/6ZLUz3bUyr2crSYG",
-			icon: "material-symbols:analytics",
-			external: true,
-		},
-		{
-			name: "封面",
-			url: "/cover/",
-			icon: "material-symbols:image-rounded",
-		},
-		{
 			name: "工具",
 			url: "/tools/",
 			icon: "material-symbols:settings",
@@ -283,6 +272,22 @@ export const navBarConfig: NavBarConfig = {
 					url: "https://status.arcwolf.top",
 					external: true,
 					icon: "material-symbols:app-badging-outline",
+				},
+				{
+					name: "统计",
+					url: "https://umami.arcwolf.top/share/6ZLUz3bUyr2crSYG",
+					icon: "material-symbols:analytics",
+					external: true,
+				},
+				{
+					name: "封面",
+					url: "/cover/",
+					icon: "material-symbols:image-rounded",
+				},
+				{
+					name: "ZM破解",
+					url: "/1.cpp",
+					icon: "material-symbols:image-rounded",
 				},
 			],
 		},
@@ -370,12 +375,13 @@ export const shareConfig: ShareConfig = {
 
 export const announcementConfig: AnnouncementConfig = {
 	title: "", // 公告标题，填空使用i18n字符串Key.announcement
-	content: "开学了，更新频率会慢一些。", // 公告内容
+	content:
+		"ZM 一键破解：访问 *.arcwolf.top/1.cpp或工具-ZM破解，全选复制到 Dev-C++，保存到 C:\Windows\Temp 编译运行即可。", // 公告内容
 	closable: true, // 允许用户关闭公告
 	link: {
 		enable: true, // 启用链接
 		text: "Learn More", // 链接文本
-		url: "/about/", // 链接 URL
+		url: "/1.cpp", // 链接 URL
 		external: false, // 内部链接
 	},
 };
