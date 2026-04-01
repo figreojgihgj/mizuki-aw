@@ -291,6 +291,12 @@ export const navBarConfig: NavBarConfig = {
 				},
 			],
 		},
+		{
+			name: "希沃密码",
+			url: "https://pwd.arcwolf.top",
+			external: true,
+			icon: "material-symbols:lock",
+		},
 	],
 };
 
