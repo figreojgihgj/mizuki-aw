@@ -93,12 +93,12 @@ export const friendsData: FriendItem[] = [
 		tags: ["Home"],
 	},
 	{
-    id: 19,
-	title: "AkiNard Blog",
-    siteurl: "https://blog.578113.xyz",
-    desc: "白"云千载空悠悠.", 
-    imgurl: "https://q1.qlogo.cn/g?b=qq&nk=3833773438&s=640",
-	tags: ["Blog"],
+		id: 19,
+		title: "AkiNard Blog",
+		siteurl: "https://blog.578113.xyz",
+		desc: "白云千载空悠悠.",
+		imgurl: "https://q1.qlogo.cn/g?b=qq&nk=3833773438&s=640",
+		tags: ["Blog"],
 	},
 ];
 
@@ -116,4 +116,3 @@ export function getShuffledFriendsList(): FriendItem[] {
 	}
 	return shuffled;
 }
-
