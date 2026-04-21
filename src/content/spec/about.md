@@ -20,6 +20,8 @@
 - 蔚蓝档案(国服):52778(好友码bll747y)
 
 ## 网站架构
-本站由 **Astro** 框架搭建，使用 [Mizuki](https://github.com/matsuzaka-yuki/mizuki) 主题。
+本站由 **Astro** 框架搭建，基于 [Mizuki](https://github.com/matsuzaka-yuki/mizuki) 主题，以下为原仓库：
 
-::github{repo="matsuzaka-yuki/Mizuki"}
+::github{repo="matsuzaka-yuki/Mizuki"}  
+我在此基础上增加了自己的一些想法：
+::github{repo="figreojgihgj/mizuki-aw"}
