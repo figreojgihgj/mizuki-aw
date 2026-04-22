@@ -24,4 +24,4 @@
 
 ::github{repo="matsuzaka-yuki/Mizuki"}  
 我在此基础上增加了自己的一些想法：
-::github{repo="figreojgihgj/mizuki-aw"}
+::github{repo="arcwolf1/mizuki-aw"}
