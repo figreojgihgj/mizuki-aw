@@ -340,8 +340,6 @@ export type MusicPlayerConfig = {
 export type FooterConfig = {
 	enable: boolean; // 是否启用Footer HTML注入功能
 	customHtml?: string; // 自定义HTML内容，用于添加备案号等信息
-	showLastCommit?: boolean; // 是否显示最近一次提交信息
-	repoUrl?: string; // 仓库URL，用于生成提交链接
 };
 
 // 组件配置类型定义

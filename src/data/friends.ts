@@ -47,9 +47,9 @@ export const friendsData: FriendItem[] = [
 	{
 		id: 13,
 		title: "Yourlai Blog",
-		imgurl: "https://cdn.cdn.yourlai.icu/img/logo/ava.png",
+		imgurl: "https://cdn.cdn.yourlai.com/img/logo/ava.png",
 		desc: "无 bug 是理想，调设备是日常",
-		siteurl: "https://yourlai.icu",
+		siteurl: "https://yourlai.com",
 		tags: ["Blog"],
 	},
 	{
